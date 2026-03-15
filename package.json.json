@@ -1,0 +1,12 @@
+{
+  "name": "complete-payment-system",
+  "version": "1.0.0",
+  "description": "Customer-entered amount payment page with server-side order creation and cashier URL resolution",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
