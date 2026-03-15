@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Payment</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f7fb;
+padding:40px;
+text-align:center;
+}
+
+.card{
+background:white;
+padding:30px;
+max-width:400px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+background:#111827;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+}
+
+#status{
+margin-top:10px;
+font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Create Test Payment</h2>
+
+<input id="amount" type="number" placeholder="Enter amount" />
+
+<input id="customerName" type="text" placeholder="Customer name (optional)" />
+
+<button onclick="createPayment()">Create Payment</button>
+
+<p id="status"></p>
+
+</div>
+
+<script>
+
+async function createPayment(){
+
+const amount=document.getElementById("amount").value;
+const customerName=document.getElementById("customerName").value;
+
+document.getElementById("status").innerText="Creating payment...";
+
+const response=await fetch("/api/create-payment",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+amount,
+customerName
+})
+
+});
+
+const data=await response.json();
+
+if(data.paymentUrl){
+
+window.location.href=data.paymentUrl;
+
+}else{
+
+document.getElementById("status").innerText="Error creating payment";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
