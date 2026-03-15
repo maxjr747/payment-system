@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment Page</title>
+<style>
+body{
+font-family:Arial;
+background:#f5f7fb;
+padding:40px;
+text-align:center;
+}
+
+.card{
+background:white;
+padding:30px;
+max-width:400px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.1);
+}
+
+button{
+padding:12px;
+background:#16a34a;
+border:none;
+color:white;
+font-size:16px;
+border-radius:8px;
+cursor:pointer;
+margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Test Payment Page</h2>
+
+<p><strong>Payment ID:</strong> <span id="paymentId"></span></p>
+<p><strong>Customer:</strong> <span id="customerName"></span></p>
+<p><strong>Amount:</strong> $<span id="amount"></span></p>
+<p><strong>Status:</strong> <span id="status"></span></p>
+
+<button onclick="completePayment()">Complete Payment</button>
+
+<p id="msg"></p>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+async function loadPayment(){
+
+const response = await fetch(`/api/payment/${id}`);
+const data = await response.json();
+
+document.getElementById("paymentId").textContent = data.id;
+document.getElementById("customerName").textContent = data.customerName;
+document.getElementById("amount").textContent = data.amount;
+document.getElementById("status").textContent = data.status;
+
+}
+
+async function completePayment(){
+
+await fetch(`/api/payment/${id}/complete`,{
+method:"POST"
+});
+
+document.getElementById("msg").textContent="Payment marked as paid";
+
+loadPayment();
+
+}
+
+loadPayment();
+
+</script>
+
+</body>
+</html>
